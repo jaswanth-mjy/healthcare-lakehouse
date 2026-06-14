@@ -22,6 +22,7 @@ jobs:
         run: pip install pandas dbt-core dbt-duckdb duckdb
 
       - name: Run Bronze ingestion
+        id: ingest
         run: python scripts/ingest_bronze.py
 
       - name: Run data quality checks
@@ -30,16 +31,23 @@ jobs:
       - name: Setup DuckDB bronze view with absolute path
         run: |
           python3 << 'PYEOF'
-          import duckdb, glob, os
+          import duckdb, os, re
           root = os.getcwd()
+          bronze_output_rel = "${{ steps.ingest.outputs.bronze_output }}"
+          if os.path.isabs(bronze_output_rel):
+              raise ValueError(f"Expected relative bronze output path, got absolute path: {bronze_output_rel}")
+          if not re.fullmatch(r"bronze/hospitals/ingestion_date=\\d{4}-\\d{2}-\\d{2}/hospitals\\.json", bronze_output_rel):
+              raise ValueError(f"Unexpected bronze output path format: {bronze_output_rel}")
+          bronze_output = os.path.realpath(os.path.normpath(os.path.join(root, bronze_output_rel)))
+          allowed_prefix = os.path.realpath(os.path.join(root, "bronze")) + os.sep
+          if not bronze_output.startswith(allowed_prefix):
+              raise ValueError(f"Bronze output path escapes bronze directory: {bronze_output}")
+          if not os.path.exists(bronze_output):
+              raise FileNotFoundError(f"Bronze output file not found: {bronze_output}")
           conn = duckdb.connect(os.path.join(root, "healthcare.duckdb"))
           conn.execute("CREATE SCHEMA IF NOT EXISTS bronze")
-          files = glob.glob(os.path.join(root, "bronze/hospitals/ingestion_date=*/hospitals.json"))
-          if not files:
-              raise FileNotFoundError("No Bronze hospitals.json files found after ingestion")
-          latest = max(files, key=os.path.getmtime)
-          conn.execute(f"CREATE OR REPLACE VIEW bronze.hospitals AS SELECT * FROM read_json_auto('{latest.replace(\"'\", \"''\")}')")
-          print(f"✓ View created from {latest}")
+          conn.execute(f"CREATE OR REPLACE VIEW bronze.hospitals AS SELECT * FROM read_json_auto('{bronze_output.replace(\"'\", \"''\")}')")
+          print(f"✓ View created from {bronze_output}")
           conn.close()
           PYEOF
 

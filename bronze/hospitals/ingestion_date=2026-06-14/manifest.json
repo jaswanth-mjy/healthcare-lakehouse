@@ -5,7 +5,7 @@
   "output_file": "bronze/hospitals/ingestion_date=2026-06-14/hospitals.json",
   "row_count": 5432,
   "column_count": 38,
-  "ingested_at": "2026-06-14T18:08:30.634320Z",
+  "ingested_at": "2026-06-14T19:27:58.252538Z",
   "ingestion_date": "2026-06-14",
   "status": "success"
 }

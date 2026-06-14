@@ -122,4 +122,11 @@ def ingest_hospitals(input_path: str = RAW_INPUT) -> str:
 
 if __name__ == "__main__":
     result = ingest_hospitals()
+    github_output = os.getenv("GITHUB_OUTPUT")
+    if github_output:
+        try:
+            with open(github_output, "a") as f:
+                f.write(f"bronze_output={result}\n")
+        except OSError as e:
+            raise RuntimeError(f"Failed to write bronze_output to GITHUB_OUTPUT. Error: {e}") from e
     print(f"\nOutput: {result}")
