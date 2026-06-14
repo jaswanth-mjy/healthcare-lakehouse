@@ -27,13 +27,14 @@ jobs:
       - name: Run data quality checks
         run: python tests/ge_hospital_suite.py
 
-      - name: Setup DuckDB bronze view
+      - name: Setup DuckDB bronze view with absolute path
         run: |
           python3 << 'PYEOF'
-          import duckdb, glob
-          conn = duckdb.connect("healthcare.duckdb")
+          import duckdb, glob, os
+          root = os.getcwd()
+          conn = duckdb.connect(os.path.join(root, "healthcare.duckdb"))
           conn.execute("CREATE SCHEMA IF NOT EXISTS bronze")
-          files = glob.glob("bronze/hospitals/ingestion_date=*/hospitals.json")
+          files = glob.glob(os.path.join(root, "bronze/hospitals/ingestion_date=*/hospitals.json"))
           latest = sorted(files)[-1]
           conn.execute(f"CREATE OR REPLACE VIEW bronze.hospitals AS SELECT * FROM read_json_auto('{latest}')")
           print(f"✓ View created from {latest}")
