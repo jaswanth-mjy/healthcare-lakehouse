@@ -1,0 +1,31 @@
+[0m23:49:33.877523 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10e2b2510>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10e2de190>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10e2de7d0>]}
+
+
+============================== 23:49:33.884916 | d4877b2d-fdc3-4a2b-999a-f07ea3e461ac ==============================
+[0m23:49:33.884916 [info ] [MainThread]: Running with dbt=1.11.11
+[0m23:49:33.885383 [debug] [MainThread]: running dbt with arguments {'introspect': 'True', 'no_print': 'None', 'use_experimental_parser': 'False', 'log_format': 'default', 'target_path': 'None', 'printer_width': '80', 'invocation_command': 'dbt init healthcare_dbt', 'log_path': 'logs', 'partial_parse': 'True', 'version_check': 'True', 'cache_selected_only': 'False', 'debug': 'False', 'fail_fast': 'False', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'log_cache_events': 'False', 'profiles_dir': '/Users/mjaswanth/.dbt', 'write_json': 'True', 'warn_error': 'None', 'static_parser': 'True', 'send_anonymous_usage_stats': 'True', 'empty': 'None', 'indirect_selection': 'eager', 'use_colors': 'True'}
+[0m23:49:33.897163 [info ] [MainThread]: Creating dbt configuration folder at /Users/mjaswanth/.dbt
+[0m23:49:33.900412 [debug] [MainThread]: Starter project path: /Users/mjaswanth/Downloads/healthcare-lakehouse/venv/lib/python3.11/site-packages/dbt/include/starter_project
+[0m23:49:33.907403 [info ] [MainThread]: 
+Your new dbt project "healthcare_dbt" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m23:49:33.907765 [info ] [MainThread]: Setting up your profile.
+[0m23:50:04.426670 [info ] [MainThread]: Profile healthcare_dbt written to /Users/mjaswanth/.dbt/profiles.yml using target's sample configuration. Once updated, you'll be able to start developing with dbt.
+[0m23:50:04.861823 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": true, "command_wall_clock_time": 31.05225, "process_in_blocks": "0", "process_kernel_time": 0.285267, "process_mem_max_rss": "115818496", "process_out_blocks": "0", "process_user_time": 1.162327}
+[0m23:50:04.862863 [debug] [MainThread]: Command `dbt init` succeeded at 23:50:04.862684 after 31.05 seconds
+[0m23:50:04.863463 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x109fea950>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x109e7ddd0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x109f211d0>]}
+[0m23:50:04.864013 [debug] [MainThread]: Flushing usage events
+[0m23:50:06.003923 [debug] [MainThread]: An error was encountered while trying to flush usage events

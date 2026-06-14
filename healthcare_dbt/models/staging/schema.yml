@@ -1,0 +1,47 @@
+version: 2
+
+sources:
+  - name: bronze
+    description: "Raw CMS hospital data — landed by ingest_bronze.py"
+    tables:
+      - name: hospitals
+        description: "CMS Hospital General Information dataset"
+
+models:
+  - name: stg_hospitals
+    description: "Cleaned and typed hospital records from CMS. One row per hospital."
+    columns:
+      - name: facility_id
+        description: "CMS 6-digit facility identifier"
+        tests:
+          - not_null
+          - unique
+
+      - name: hospital_name
+        description: "Hospital display name (title-cased)"
+        tests:
+          - not_null
+
+      - name: state
+        description: "Two-letter US state code"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID',
+                       'IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS',
+                       'MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK',
+                       'OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV',
+                       'WI','WY','DC','PR','VI','GU','MP','AS']
+
+      - name: overall_rating
+        description: "CMS star rating 1–5 (NULL if not rated)"
+        tests:
+          - accepted_values:
+              values: [1, 2, 3, 4, 5]
+              quote: false
+
+      - name: has_emergency_services
+        description: "True if hospital offers emergency services"
+
+      - name: quality_score
+        description: "Derived: % of MORT+Safety+READM measures rated Better (0–100)"

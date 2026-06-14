@@ -1,0 +1,8 @@
+venv/
+airflow/
+__pycache__/
+*.pyc
+*.duckdb
+*.duckdb.wal
+healthcare_dbt/target/
+healthcare_dbt/dbt_packages/

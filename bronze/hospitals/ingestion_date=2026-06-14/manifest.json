@@ -1,0 +1,11 @@
+{
+  "source": "cms_hospital_general_info",
+  "source_url": "https://data.cms.gov/provider-data/",
+  "input_file": "data/raw/hospitals.csv",
+  "output_file": "bronze/hospitals/ingestion_date=2026-06-14/hospitals.json",
+  "row_count": 5432,
+  "column_count": 38,
+  "ingested_at": "2026-06-14T18:08:30.634320Z",
+  "ingestion_date": "2026-06-14",
+  "status": "success"
+}
