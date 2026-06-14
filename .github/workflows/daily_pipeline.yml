@@ -35,8 +35,10 @@ jobs:
           conn = duckdb.connect(os.path.join(root, "healthcare.duckdb"))
           conn.execute("CREATE SCHEMA IF NOT EXISTS bronze")
           files = glob.glob(os.path.join(root, "bronze/hospitals/ingestion_date=*/hospitals.json"))
-          latest = sorted(files)[-1]
-          conn.execute(f"CREATE OR REPLACE VIEW bronze.hospitals AS SELECT * FROM read_json_auto('{latest}')")
+          if not files:
+              raise FileNotFoundError("No Bronze hospitals.json files found after ingestion")
+          latest = max(files, key=os.path.getmtime)
+          conn.execute(f"CREATE OR REPLACE VIEW bronze.hospitals AS SELECT * FROM read_json_auto('{latest.replace(\"'\", \"''\")}')")
           print(f"✓ View created from {latest}")
           conn.close()
           PYEOF
